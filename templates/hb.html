@@ -48,22 +48,19 @@
     }
 
     #name-text {
-      position: relative;
-      display: flex;
-      justify-content: center;
-      flex-wrap: nowrap;
+      display: flex;              
+      justify-content: center;    
+      flex-wrap: nowrap;          
       font-size: 8vw;
       font-weight: bold;
-      width: 90%;
-      height: 15vw;
       margin-top: 20px;
       z-index: 5;
     }
 
     #name-text span {
-      position: absolute;
+      position: relative;   /* relative, not absolute */
+      margin: 0 5px;        /* even gap between letters */
       font-weight: bold;
-      text-align: center;
       background: linear-gradient(270deg, #ff6ec4, #7873f5, #42e695, #ff6ec4, #fbd72b);
       background-size: 1000% 100%;
       -webkit-background-clip: text;
@@ -71,6 +68,11 @@
       text-shadow: 3px 3px 8px rgba(0,0,0,0.5);
       opacity: 0;
       animation: fallToLine 2s forwards, animateGradient 5s linear infinite;
+    }
+
+    /* Extra spacing for actual spaces in the name */
+    #name-text span.space {
+      margin: 0 25px; /* Bigger gap for space between words */
     }
 
     @keyframes fallToLine {
@@ -113,19 +115,20 @@
     });
 
     // Name letters falling
-    const name = "Sai Annayya";
+    const name = "Chamini Akka";
     const nameContainer = document.getElementById('name-text');
 
     name.split("").forEach((char, index) => {
       const span = document.createElement("span");
-      span.textContent = char;
-
-      // Random horizontal position inside container
-      const leftPercent = 10 + (index * (80 / name.length));
-      span.style.left = `${leftPercent}%`;
+      if (char === " ") {
+        span.classList.add("space"); // Add extra space class
+        span.textContent = "";
+      } else {
+        span.textContent = char;
+      }
 
       // Random vertical start
-      span.style.top = `${-Math.random()*300 - 50}px`;
+      span.style.top = `${-Math.random() * 300 - 50}px`;
 
       // Stagger animation
       span.style.animationDelay = `${index * 0.2}s`;
@@ -135,7 +138,7 @@
 
     // Calculate age
     function calculateAge() {
-      const birthDate = new Date(1994, 8, 5);
+      const birthDate = new Date(2004, 8, 29); // YYYY, MM (0-based), DD
       const today = new Date();
 
       let years = today.getFullYear() - birthDate.getFullYear();
